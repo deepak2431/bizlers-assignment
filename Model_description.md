@@ -8,10 +8,11 @@
 - 1.3 Normalization: I performed a grayscale normalization to reduce the effect of illumination's differences. Moreover the CNN converge faster on [0..1] data than on [0..255].
 - 1.4 Label encoding: All the labels was encoded to its corresponding hot vector.
 - 1.5 Split training and validation set: The training and validation data was split with test_size = 0.2.
-### 3  Building the model CNN
+
+### 2. Building the model CNN
 #### Define the model
 
-I used the Keras Sequential API, where you have just to add one layer at a time, starting from the input.
+I used the Keras Sequential API.
 
 The first is the convolutional (Conv2D) layer. It is like a set of learnable filters. I choosed to set 32 filters for the two firsts conv2D layers and 64 filters for the two last ones. Each filter transforms a part of the image (defined by the kernel size) using the kernel filter. The kernel filter matrix is applied on the whole image. Filters can be seen as a transformation of the image.
 
@@ -33,16 +34,16 @@ In the end i used the features in two fully-connected (Dense) layers which is ju
 
 As we have only small number of training examples so in order to avoid overfitting problem, we need to expand artificially our images. We can make your existing dataset even larger. The idea is to alter the training data with small transformations.
 
-Approaches that alter the training data in ways that change the array representation while keeping the label the same are known as data augmentation techniques. Some popular augmentations people use are grayscales, horizontal flips, vertical flips, random crops, color jitters, translations, rotations, and much more.
+Some popular augmentations people use are grayscales, horizontal flips, vertical flips, random crops, color jitters, translations, rotations, and much more. I have used rotation, horizontal_flip, height_shift and width_shift.
 
-By applying just a couple of these transformations to our training data, we can easily double or triple the number of training examples and create a very robust model.
+By applying just a couple of these transformations to the training data, after applying this the training data easily double or triple the number of training examples and would be helpful to create a very robust model.
 
 
 #### Setting the optimizer
 
 Once our layers are added to the model, we need to set up a score function, a loss function and an optimisation algorithm.
 
-We define the loss function to measure how poorly our model performs on images with known labels. It is the error rate between the oberved labels and the predicted ones. We use a specific form for categorical classifications (>2 classes) called the "categorical_crossentropy".
+Loss function is used to measure how poorly our model performs on images with known labels. It is the error rate between the oberved labels and the predicted ones. I used a specific form for categorical classifications (>2 classes) called the "categorical_crossentropy".
 
 The most important function is the optimizer. This function will iteratively improve parameters (filters kernel values, weights and bias of neurons ...) in order to minimise the loss.
 
@@ -54,7 +55,7 @@ The metric function "accuracy" is used is to evaluate the performance our model.
 
 After training the model I plotted a graph of accuracy and loss for both the validation and training set, to get more insights about how the loss function is changing over no of epocs. I train the model for 30 epochs at the model gave accuracy of 69%. The maximum accuracy was 73%.
 
-#### Testing the model
+#### 3.Testing the model
 
 After training the model I loaded all the image files from the folder test and converted into RGB form for prediction. The labels were predicted for the images and at last it was converted to pandas data frame for seeing the results for each of the test set images.
 
